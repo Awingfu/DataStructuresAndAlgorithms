@@ -55,3 +55,7 @@ def swap(arr, index1, index2):
 unsortedArr = [ 5, 9, 7, 2, 5, 5]
 bis(unsortedArr)
 print(unsortedArr)
+
+unsortedArr = [5,1]
+bis(unsortedArr)
+print(unsortedArr)
