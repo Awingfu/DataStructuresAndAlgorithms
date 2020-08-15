@@ -6,38 +6,56 @@ class TreeNode(object):
         self.right = right
 
 class Solution(object):
-    def isValidBST(self, root):
+    # def isValidBST(self, root): # O(nlogn)
+    #     """
+    #     :type root: TreeNode
+    #     :rtype: bool
+    #     """
+    #     if root == None:
+    #         return True
+
+    #     if self.left_valid(root.left, root.val) and self.right_valid(root.right, root.val): # O(h)
+    #         return self.isValidBST(root.left) and self.isValidBST(root.right) # O(n)
+    #     else:
+    #         return False
+
+    # def left_valid(self, node, rootVal):
+    #     if node == None:
+    #         return True
+    #     if node.val < rootVal:
+    #         maxLeft = node
+    #         while maxLeft.right:
+    #             maxLeft = maxLeft.right
+    #         return maxLeft.val < rootVal
+    #     return False
+
+    # def right_valid(self, node, rootVal):
+    #     if node == None:
+    #         return True
+    #     if node.val > rootVal:
+    #         minRight = node
+    #         while minRight.left:
+    #             minRight = minRight.left
+    #         return minRight.val > rootVal
+    #     return False
+
+    # implement with keeping min and max passing down
+    def helper(self, node, min, max):
+        if node == None:
+            return True
+        if min is not None and node.val > min:
+            return False
+        if max is not None and node.val < max:
+            return False
+
+        return self.helper(node.left, min, node.val) and self.helper(node.right, node.val, max)
+    
+    def isValidBST(self, root): # O(n)
         """
         :type root: TreeNode
         :rtype: bool
         """
-        if root == None:
-            return True
-
-        if self.left_valid(root.left, root.val) and self.right_valid(root.right, root.val):
-            return self.isValidBST(root.left) and self.isValidBST(root.right)
-        else:
-            return False
-
-    def left_valid(self, node, rootVal):
-        if node == None:
-            return True
-        if node.val < rootVal:
-            maxLeft = node
-            while maxLeft.right:
-                maxLeft = maxLeft.right
-            return maxLeft.val < rootVal
-        return False
-
-    def right_valid(self, node, rootVal):
-        if node == None:
-            return True
-        if node.val > rootVal:
-            minRight = node
-            while minRight.left:
-                minRight = minRight.left
-            return minRight.val > rootVal
-        return False
+        return self.helper(root, None, None)
 
 def test():
   sol = Solution()
@@ -60,7 +78,7 @@ def test():
   #        3
   #    9       20 
   #  _  _    15   7
-  # true
+  # false
   temp2 = TreeNode(3)
   temp2.left = TreeNode(9)
   temp2.right = TreeNode(20)

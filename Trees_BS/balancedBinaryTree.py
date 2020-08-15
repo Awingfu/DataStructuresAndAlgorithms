@@ -27,23 +27,22 @@ class Solution(object):
         if not root: 
             return True
         
-        if self.checkBalance(root) == -1:
-           return False
-        else:
-            return True
+        return self.checkBalance(root) != -1
 
     def checkBalance(self, node): 
         if not node:
             return 0
+            
         leftHeight = self.checkBalance(node.left)
         rightHeight = self.checkBalance(node.right)
 
         if leftHeight == -1 or rightHeight == -1:
             return -1
-        elif abs(leftHeight - rightHeight) < 2:
+        
+        if abs(leftHeight - rightHeight) < 2:
             return max(leftHeight, rightHeight) + 1
-        else:
-           return -1
+        
+        return -1
 
 
 def test():
