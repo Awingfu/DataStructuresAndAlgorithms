@@ -93,6 +93,39 @@ tens_factors_map = {
   90: 'ninety'
 }
 
+def read_number(num):
+  if num == 0:
+    return "zero"
+
+  if num < 0:
+    return "negative " + read_number(num * -1)
+
+  places = ["", "thousand", "million", "billion"]
+
+  groups = [] # groups of 3 numbers in reverse so 123,456,789 -> [789,456,123]
+  while num > 0:
+    groups.append(num % 1000)
+    num = num // 1000 
+
+  #  [789,456,123] -> ["seven hundred eighty nine", "four hundred fifty six thousand", etc]
+  result = [] 
+  for i in range(len(groups)):
+    words = read_hundreds(groups[i]) # 123 -> one hundred twenty three
+    if words == "": # so [123, 000, 123] would skip thousands
+      continue
+    result.append(read_hundreds(groups[i]) + " " + places[i]) # add places
+  return " ".join(result[::-1]) # reverse list then join with space in between
+
+def read_hundreds(num):
+  if num == 0:
+    return ""
+
+  hundreds_place = num // 100
+  if hundreds_place >= 1:
+    return under_20_map[hundreds_place] + " hundred " + read_tens(num % 100)
+
+  return read_tens(num % 100)
+
 def read_tens(num):
   if num == 0:
     return ""
@@ -107,39 +140,11 @@ def read_tens(num):
   
   return tens_factors_map[tens] + " " + under_20_map[ones]
 
-def read_hundreds(num):
-  if num == 0:
-    return ""
-
-  hundreds_place = num // 100
-  if hundreds_place >= 1:
-    return under_20_map[hundreds_place] + " hundred " + read_tens(num % 100)
-
-  return read_tens(num % 100)
-
-def read_number(num):
-  if num == 0:
-    return "zero"
-
-  places = ["", "thousand", "million", "billion"]
-
-  groups = [] 
-  while num > 0:
-    groups.append(num % 1000)
-    num = num // 1000 
-
-  result = []
-  for i in range(len(groups)):
-    words = read_hundreds(groups[i])
-    if words == "":
-      continue
-    result.append(read_hundreds(groups[i]) + " " + places[i])
-  return " ".join(result[::-1])
-
 
 print(read_number(15))
 print(read_number(500))
 print(read_number(720))
 print(read_number(123456))
 print(read_number(1000000000))
+print(read_number(-1000000000))
 print(read_number(999555444333))
