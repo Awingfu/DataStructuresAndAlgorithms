@@ -1,4 +1,5 @@
 # https://leetcode.com/discuss/interview-question/853053/
+# REDO
 from collections import deque
 
 def turnstile(numCust, arrTime, directions):

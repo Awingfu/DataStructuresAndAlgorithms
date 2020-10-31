@@ -1,26 +1,26 @@
 def numberOfItems(s, start, end):
   if len(start) != len(end):
     return 0
+
   result = []
   for i in range(len(start)):
     startIndex = start[i] - 1
     endIndex = end[i] - 1
     substring = s[startIndex:endIndex + 1] # inclusive
-    print(substring)
+
     compartmented = False
-    finalized_count = 0
+    validInputs = 0
     temp = 0
     for item in substring:
       if item == '|':
-        compartmented = not compartmented
-        if compartmented == False:
-          finalized_count += temp
-          temp = 0
+        if compartmented:
+          validInputs += temp
+        else:
           compartmented = True
+        temp = 0
       if compartmented and item == '*':
         temp += 1
-    result.append(finalized_count)
-  print(result)
+    result.append(validInputs)
   return result
 
 
