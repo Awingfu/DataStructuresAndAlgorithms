@@ -1,4 +1,5 @@
-def numberOfItems(s, start, end):
+#https://leetcode.com/discuss/interview-question/861453/
+def numberOfItems(s, start, end): # O(n*m) n is length of s, and m is length of indexes (start or end); space constant
   if len(start) != len(end):
     return 0
 
